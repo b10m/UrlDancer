@@ -27,3 +27,9 @@ In a production environment you probably want to run it with something like
 # AUTHOR
 
 Menno Blom <menno@b10m.net>
+
+# CAVEAT
+
+This is still very experimental and may break in interesting ways. Also
+note that it has none of the fancy functions like keeping track of clicks,
+fancy naming, etc. etc.
