@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>UrlDancer!</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+<div class="global-container">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                  <a class="brand" href="/">UrlDancer</a>
+                  <p class="navbar-text">Short URLs + Dancer</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container body">
+[% content %]
+</div>
+
+<div id="footer">
+    <div class="container">
+    <ul>
+        <li>Powered by <a href="http://perldancer.org">Dancer</a></li>
+        <li>Theme/Layout built using <a href="http://twitter.github.com/bootstrap">Twitter Bootstrap</a></li>
+        <li>Layout mostly based on <a href="http://danceb.in/">Dancebin</a></li>
+        <li><a href="http://github.com/b10m/UrlDancer">UrlDancer</a></li>
+    </ul>
+    </div>
+</div>
+</body>
+</html>

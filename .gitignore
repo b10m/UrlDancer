@@ -1,0 +1,8 @@
+*~
+logs
+*.swp
+blib
+Makefile
+Makefile.old
+.build
+*.db

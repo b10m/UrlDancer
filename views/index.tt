@@ -1,0 +1,12 @@
+<div class="hero-unit">
+    <h1>UrlDancer</h1>
+    <form method="post" action="/" class="inline-form input-append">
+    <input class="input-xxlarge span9" type="text" name="url" placeholder="Long URL" /><button type="submit" class="btn btn-primary" id="go">Shorten!</button>
+    </form>
+    [% IF shorturl %]
+    <div id="result">
+        <h2>Short URL:</h2>
+        <a style="font-size: 2em;" href="[% shorturl %]">[% shorturl %]</a>
+    </div>
+    [% END %]
+</div>
