@@ -3,6 +3,7 @@ use v5.10;
 use Dancer ':syntax';
 use Dancer::Plugin::DBIC qw( schema );
 use Encode::Base58;
+use URI;
 
 our $VERSION = '0.1';
 
@@ -13,45 +14,48 @@ get '/' => sub {
 };
 
 post '/' => sub {
-    if( param('url') ) {
-        # very dumb check to see whether this is some kind of URI
-        return status 'bad_request'
-            if param('url') !~ m/^[a-z]+:\/\/.+$/;
+    my $template = 'index';
+    my $return   = {};
 
+    if( URI->new(param('url'))->scheme =~ m/^(?:http|ftp)s?$/ ) {
         my $url = schema->resultset('Url')->find_or_create({
             url => param('url')
         });
-        my $return = {
+        $return = {
             longurl  => param('url'),
             shorturl => request->uri_base."/".encode_base58( $url->id ),
         };
-
-        given (param('render')) {
-            when ('json') { content_type('text/json');
-                            return to_json($return) }
-            default       { return template 'index', $return }
-        }
+    } else {
+        status 'bad_request';
+        $template = 'error';
+        $return->{error} = "that doesn't look like a valid URL" };
     }
 
-    status 'bad_request';
+    given (param('render')) {
+        when ('json') { content_type('text/json');
+                        return to_json($return) }
+        default       { return template $template, $return }
+    }
 };
 
 get '/:id' => sub {
     my $id  = param('id');
-    my $url = schema->resultset('Url')->search({
+
+    if( my $url = schema->resultset('Url')->search({
         id => decode_base58( $id )
-    })->single if $id;
+    })->single) {
+        $url->last_accessed(
+            schema->storage->datetime_parser->format_datetime(
+                DateTime->now(time_zone => config->{time_zone})
+            )
+        );
+        $url->update;
 
-    $url->last_accessed(
-        schema->storage->datetime_parser->format_datetime(
-            DateTime->now(time_zone => config->{time_zone})
-        )
-    );
-    $url->update;
-
-    return redirect $url->url if $url;
+        return redirect $url->url;
+    }
 
     status 'not_found';
+    template 'error', { error => "can't find that page" };
 };
 
 true;

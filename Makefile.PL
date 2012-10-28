@@ -19,6 +19,7 @@ WriteMakefile(
         'DBIx::Class::Schema'   => 0,
         'Encode::Base58'        => 0,
         'Test::More'            => 0,
+        'URI'                   => 0,
         'YAML'                  => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
