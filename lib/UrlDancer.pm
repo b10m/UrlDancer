@@ -28,7 +28,7 @@ post '/' => sub {
     } else {
         status 'bad_request';
         $template = 'error';
-        $return->{error} = "that doesn't look like a valid URL" };
+        $return->{error} = "that doesn't look like a valid URL";
     }
 
     given (param('render')) {
