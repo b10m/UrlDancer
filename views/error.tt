@@ -1,3 +1,0 @@
-<div class="alert alert-error">
-    <p><strong>Oh snap!</strong> [% error %]</p>
-</div>

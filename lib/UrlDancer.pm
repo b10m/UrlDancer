@@ -14,7 +14,6 @@ get '/' => sub {
 };
 
 post '/' => sub {
-    my $template = 'index';
     my $return   = {};
 
     if( URI->new(param('url'))->scheme =~ m/^(?:http|ftp)s?$/ ) {
@@ -27,14 +26,13 @@ post '/' => sub {
         };
     } else {
         status 'bad_request';
-        $template = 'error';
         $return->{error} = "that doesn't look like a valid URL";
     }
 
     given (param('render')) {
         when ('json') { content_type('text/json');
                         return to_json($return) }
-        default       { return template $template, $return }
+        default       { return template 'index', $return }
     }
 };
 
@@ -55,7 +53,7 @@ get '/:id' => sub {
     }
 
     status 'not_found';
-    template 'error', { error => "can't find that page" };
+    template 'index', { error => "can't find that page" };
 };
 
 true;
